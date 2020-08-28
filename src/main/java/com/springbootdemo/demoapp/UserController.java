@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -32,9 +35,10 @@ public class UserController {
 		return userList;
 	}
 	
-	@GetMapping("/user/{name}")
-	public User getUser(@PathVariable String name) {
-		
+	
+	@GetMapping(path = "/user}",produces = "text/html")
+	public String getUser(@RequestParam String user) {
+		System.out.print(user);
 		User user1 = new User();
 		user1.setId(1);
 		user1.setName("vivek");
@@ -49,18 +53,21 @@ public class UserController {
 		userList.add(user1);
 		userList.add(user2);
 	
-		return userList.stream().filter(temp->temp.getName().equals(name)).collect(Collectors.toList()).get(0);
-//		for (User user : userList) {
-//			
-//			if(user.getName().equalsIgnoreCase(name)) {
-//				return user;
-//				
-//			}
-//			
-//		}
+		//return userList.stream().filter(temp->temp.getName().equals(user)).collect(Collectors.toList()).get(0);
+		for (User users : userList) {
+			
+			if(users.getName().contains(user)) {
+				
+				return "<h1>ID:"+users.getId()+"</h1>"
+						+ "<h1>NAME:"+users.getName()+"</h1>"
+						+ "<h1>Email:"+users.getEmail()+"</h1>";
+				
+			}
+			
+		}
 		
 		
-		//return null;
+		return "<h1>USER NOT FOUND</h1>";
 	}
 
 	
